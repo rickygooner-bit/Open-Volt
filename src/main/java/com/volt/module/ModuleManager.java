@@ -70,7 +70,8 @@ public final class ModuleManager {
         // Render
         add(
                 new ContainerSlots(), new FullBright(), new HUD(), new PlayerESP(),
-                new SwingSpeed(), new OreESP(), new Trajectory(), new FpsCounter()
+                new SwingSpeed(), new OreESP(), new Trajectory(), new FpsCounter(),
+                new SkeletonESP()
         );
 
         // Misc

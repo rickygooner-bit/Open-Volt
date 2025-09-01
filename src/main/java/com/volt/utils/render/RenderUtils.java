@@ -8,6 +8,7 @@ import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.render.*;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.math.Box;
+import net.minecraft.util.math.Vec3d;
 import org.joml.Matrix4f;
 
 import java.awt.*;
@@ -130,6 +131,21 @@ public final class RenderUtils {
         buffer.vertex(matrix, minX, minY, minZ).color(r, g, b, a);
         buffer.vertex(matrix, maxX, minY, maxZ).color(r, g, b, a);
         buffer.vertex(matrix, maxX, minY, minZ).color(r, g, b, a);
+
+        BufferRenderer.drawWithGlobalProgram(buffer.end());
+}
+
+    public static void renderLine(MatrixStack matrices, Vec3d start, Vec3d end, Color color) {
+        Matrix4f matrix = matrices.peek().getPositionMatrix();
+        BufferBuilder buffer = Tessellator.getInstance().begin(VertexFormat.DrawMode.DEBUG_LINES, VertexFormats.POSITION_COLOR);
+
+        float r = color.getRed() / 255.0f;
+        float g = color.getGreen() / 255.0f;
+        float b = color.getBlue() / 255.0f;
+        float a = color.getAlpha() / 255.0f;
+
+        buffer.vertex(matrix, (float) start.x, (float) start.y, (float) start.z).color(r, g, b, a);
+        buffer.vertex(matrix, (float) end.x, (float) end.y, (float) end.z).color(r, g, b, a);
 
         BufferRenderer.drawWithGlobalProgram(buffer.end());
 }
