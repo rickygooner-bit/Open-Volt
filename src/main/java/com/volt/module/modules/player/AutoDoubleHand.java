@@ -14,6 +14,7 @@ import net.minecraft.item.Items;
 public final class AutoDoubleHand extends Module {
     
     private static final BooleanSetting inventorySwitch = new BooleanSetting("Inventory Switch", true);
+    private static final NumberSetting totemSlot = new NumberSetting("Totem Slot", 1, 9, 9, 1);
     private static final BooleanSetting heightSwitch = new BooleanSetting("Height Switch", true);
     private static final NumberSetting heightThreshold = new NumberSetting("Height Threshold", 1.0, 10.0, 3.0, 0.1);
     private static final BooleanSetting healthSwitch = new BooleanSetting("Health Switch", true);
@@ -26,7 +27,7 @@ public final class AutoDoubleHand extends Module {
     
     public AutoDoubleHand() {
         super("Auto Double Hand", "Automatically switches to totem based on conditions", -1, Category.PLAYER);
-        this.addSettings(inventorySwitch, heightSwitch, heightThreshold, healthSwitch, healthThreshold);
+        this.addSettings(inventorySwitch, totemSlot, heightSwitch, heightThreshold, healthSwitch, healthThreshold);
     }
     
     @EventHandler
@@ -70,17 +71,28 @@ public final class AutoDoubleHand extends Module {
     private boolean isHoldingTotem() {
         if (isNull()) return false;
         
-        ItemStack heldItem = mc.player.getInventory().getStack(mc.player.getInventory().selectedSlot);
+        int currentSlot = mc.player.getInventory().selectedSlot;
+        
+        if (originalSlot != -1 && currentSlot == (totemSlot.getValueInt() - 1)) {
+            return true;
+        }
+        
+        ItemStack heldItem = mc.player.getInventory().getStack(currentSlot);
         return !heldItem.isEmpty() && heldItem.getItem() == Items.TOTEM_OF_UNDYING;
     }
     
     private void switchToTotem() {
         if (isNull()) return;
         
-        int totemSlot = findTotemInHotbar();
-        if (totemSlot != -1) {
+        int totemSlotIndex = findTotemInHotbar();
+        
+        if (totemSlotIndex == -1 && inventorySwitch.getValue() && mc.currentScreen instanceof InventoryScreen) {
+            totemSlotIndex = totemSlot.getValueInt() - 1;
+        }
+        
+        if (totemSlotIndex != -1) {
             originalSlot = mc.player.getInventory().selectedSlot;
-            mc.player.getInventory().selectedSlot = totemSlot;
+            mc.player.getInventory().selectedSlot = totemSlotIndex;
         }
     }
     
