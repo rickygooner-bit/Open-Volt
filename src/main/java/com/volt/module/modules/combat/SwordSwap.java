@@ -6,6 +6,7 @@ import com.volt.mixin.MinecraftClientAccessor;
 import com.volt.module.Category;
 import com.volt.module.Module;
 import com.volt.module.setting.NumberSetting;
+import net.minecraft.entity.decoration.EndCrystalEntity;
 import net.minecraft.item.AxeItem;
 import net.minecraft.item.MaceItem;
 import net.minecraft.item.SwordItem;
@@ -49,7 +50,8 @@ public class SwordSwap extends Module {
             if (!isAxe && !isMace && !isSword) {
                 HitResult hitResult = mc.crosshairTarget;
                 if (hitResult != null && hitResult.getType() == HitResult.Type.ENTITY) {
-                    if (((EntityHitResult) hitResult).getEntity() != null) {
+                    var entity = ((EntityHitResult) hitResult).getEntity();
+                    if (entity != null && !(entity instanceof EndCrystalEntity)) {
                         int swordSlot = findSwordSlot();
                         if (swordSlot != -1) {
                             originalSlot = mc.player.getInventory().selectedSlot;
