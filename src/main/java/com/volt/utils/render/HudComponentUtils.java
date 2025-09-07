@@ -248,7 +248,7 @@ public final class HudComponentUtils {
         int x = x1;
         int y = y1;
 
-        while (true) {
+        for (;;) {
             for (int i = -thickness / 2; i <= thickness / 2; i++) {
                 for (int j = -thickness / 2; j <= thickness / 2; j++) {
                     context.fill(x + i, y + j, x + i + 1, y + j + 1, color.getRGB());

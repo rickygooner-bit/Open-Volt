@@ -171,6 +171,7 @@ public class SettingsRenderer {
 
                 int sliderHeight = 8;
                 int sliderY = controlY + (controlHeight - sliderHeight) / 2;
+                controlWidth = (int) (((double) controlWidth) * .75);
                 UIRenderer.renderSlider(context, controlX, sliderY, controlWidth, sliderHeight, normalized,
                         new Color(60, 60, 60), new Color(150, 100, 255));
 
