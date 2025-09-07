@@ -210,6 +210,7 @@ public class GuiEventHandler {
             }
             
             case NumberSetting numberSetting -> {
+                controlWidth = (int) (((double) controlWidth) * .75);
                 double relativeX = mouseX - controlX;
                 double percentage = Math.max(0, Math.min(1, relativeX / controlWidth));
                 double newValue = numberSetting.getMin() + percentage * (numberSetting.getMax() - numberSetting.getMin());
@@ -292,6 +293,7 @@ public class GuiEventHandler {
                     int maxControlWidth = Math.min(100, contentWidth - PADDING - 80);
                     int controlX = contentX + contentWidth - PADDING - maxControlWidth - 12;
                     int controlWidth = maxControlWidth;
+                    controlWidth = (int) (((double) controlWidth) * .75);
                     
                     double relativeX = mouseX - controlX;
                     double percentage = Math.max(0, Math.min(1, relativeX / controlWidth));
