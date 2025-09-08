@@ -175,12 +175,32 @@ public class SettingsRenderer {
                 UIRenderer.renderSlider(context, controlX, sliderY, controlWidth, sliderHeight, normalized,
                         new Color(60, 60, 60), new Color(150, 100, 255));
 
-                String valueText = String.valueOf(value);
-                if (valueText.endsWith(".0")) {
-                    valueText = valueText.substring(0, valueText.length() - 2);
+                boolean isEditing = eventHandler != null && eventHandler.getEditingNumberSetting() == numberSetting;
+                
+                if (isEditing) {
+                    String inputText = eventHandler.getNumberInputText();
+                    int textWidth = MinecraftClient.getInstance().textRenderer.getWidth(inputText + "|");
+                    int inputX = controlX + controlWidth + 5;
+                    int inputY = controlY + 1;
+                    int inputWidth = Math.max(30, textWidth + 4);
+                    int inputHeight = controlHeight - 2;
+                    
+                    context.fill(inputX - 2, inputY, inputX + inputWidth, inputY + inputHeight, 
+                            new Color(40, 40, 50, 200).getRGB());
+                    context.drawBorder(inputX - 2, inputY, inputWidth, inputHeight, 
+                            new Color(150, 100, 255).getRGB());
+                    
+                    String displayText = inputText + "|";
+                    context.drawTextWithShadow(MinecraftClient.getInstance().textRenderer, displayText,
+                            inputX, controlY + 2, new Color(255, 255, 255).getRGB());
+                } else {
+                    String valueText = String.valueOf(value);
+                    if (valueText.endsWith(".0")) {
+                        valueText = valueText.substring(0, valueText.length() - 2);
+                    }
+                    context.drawTextWithShadow(MinecraftClient.getInstance().textRenderer, valueText,
+                            controlX + controlWidth + 5, controlY + 2, new Color(150, 150, 150).getRGB());
                 }
-                context.drawTextWithShadow(MinecraftClient.getInstance().textRenderer, valueText,
-                        controlX + controlWidth + 5, controlY + 2, new Color(150, 150, 150).getRGB());
             }
 
             case ModeSetting modeSetting -> {
