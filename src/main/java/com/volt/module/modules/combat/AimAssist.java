@@ -32,7 +32,6 @@ public class AimAssist extends Module {
     private final NumberSetting pitchSpeed = new NumberSetting("Pitch Speed", 0.1, 5.0, 2.0, 0.1);
     private final NumberSetting yawSpeed = new NumberSetting("Yaw Speed", 0.1, 5.0, 2.0, 0.1);
     private final NumberSetting smoothing = new NumberSetting("Smoothing", 1.0, 20.0, 10.0, 0.5);
-    private final NumberSetting steepNess = new NumberSetting("Steepness", 1.0, 10.0, 5.0, 0.5);
     private final NumberSetting noiseSpeed = new NumberSetting("Noise Speed", 0.5, 5.0, 1.5, 0.5);
     private final BooleanSetting targetPlayers = new BooleanSetting("Target Players", true);
     private final BooleanSetting targetMobs = new BooleanSetting("Target Mobs", false);
@@ -47,7 +46,7 @@ public class AimAssist extends Module {
 
     public AimAssist() {
         super("Aim Assist", "Helps you with aiming", Category.COMBAT);
-        addSettings(mode, speed, fov, range, pitchSpeed, yawSpeed, smoothing,steepNess,noiseSpeed, targetPlayers, targetMobs, weaponsOnly, throughWalls, disableOnTarget, workOnlyWhileRMBPressed);
+        addSettings(mode, speed, fov, range, pitchSpeed, yawSpeed, smoothing,noiseSpeed, targetPlayers, targetMobs, weaponsOnly, throughWalls, disableOnTarget, workOnlyWhileRMBPressed);
     }
     
     @EventHandler
@@ -134,9 +133,8 @@ public class AimAssist extends Module {
         return entity instanceof PlayerEntity ? targetPlayers.getValue() : targetMobs.getValue();
     }
 
-    // i didnt know sigmoid existed lel - graph
     private float sigmoid(float x) {
-        float steep = steepNess.getValueFloat();
+        float steep = 0.9f;
         return 1.0f / (1.0f + ((float)Math.exp(-steep * ((x - 0.5f)))));
     }
     public float noise(float x) {
