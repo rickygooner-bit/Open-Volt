@@ -29,7 +29,6 @@ public final class AutoTool extends Module {
     private static final BooleanSetting onlyWhenSneaking = new BooleanSetting("Only When Sneaking", false);
     private static final BooleanSetting preventLowDurability = new BooleanSetting("Prevent Low Durability", true);
     private static final NumberSetting durabilityThreshold = new NumberSetting("Durability Threshold", 1, 100, 10, 1);
-    private static final long INVENTORY_CACHE_MS = 250;
     private final TimerUtil switchTimer = new TimerUtil();
     private final Map<ToolType, ToolSlot> cachedTools = new EnumMap<>(ToolType.class);
     private ActionState currentState = ActionState.IDLE;
@@ -69,9 +68,6 @@ public final class AutoTool extends Module {
     }
 
     ;
-    private final BlockPos targetBlock = null;
-    private final Entity targetEntity = null;
-    private long lastInventoryCheck = 0;
 
     private void handleMining(BlockHitResult blockHit) {
         BlockPos blockPos = blockHit.getBlockPos();
@@ -193,15 +189,6 @@ public final class AutoTool extends Module {
         return 1.0f;
     }
 
-    private float getWeaponDamage(ItemStack weapon) {
-        if (weapon.getItem() instanceof SwordItem) {
-            return 8.0f;
-        } else if (weapon.getItem() instanceof AxeItem) {
-            return 9.0f;
-        }
-        return 1.0f;
-    }
-
     private boolean hasLowDurability(ItemStack stack) {
         if (stack.getMaxDamage() <= 0) return false;
 
@@ -215,7 +202,6 @@ public final class AutoTool extends Module {
     public void onEnable() {
         switchTimer.reset();
         cachedTools.clear();
-        lastInventoryCheck = 0;
         super.onEnable();
     }
 

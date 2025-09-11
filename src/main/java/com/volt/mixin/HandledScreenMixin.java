@@ -12,8 +12,6 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import java.awt.*;
-
 import static com.volt.Volt.mc;
 
 @Mixin(HandledScreen.class)
@@ -21,8 +19,6 @@ public class HandledScreenMixin {
     @Inject(method = "drawSlot", at = @At("TAIL"))
     public void postDrawSlot(DrawContext context, Slot slot, CallbackInfo ci) {
         if (!Volt.INSTANCE.moduleManager.getModule(ContainerSlots.class).get().isEnabled()) return;
-
-        Color textColor = ContainerSlots.color.getValue();
 
         if (ContainerSlots.highlightTotem.getValue() && slot.hasStack()) {
             if (slot.getStack().getItem() == Items.TOTEM_OF_UNDYING) {

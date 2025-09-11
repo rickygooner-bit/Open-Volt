@@ -254,8 +254,6 @@ public final class AutoCrafter extends Module {
     private void collectResult() {
         ItemStack result = mc.player.currentScreenHandler.getSlot(0).getStack();
         if (!result.isEmpty()) {
-            Item resultItem = result.getItem();
-
             mc.interactionManager.clickSlot(
                     mc.player.currentScreenHandler.syncId,
                     0,
@@ -282,16 +280,6 @@ public final class AutoCrafter extends Module {
             }
         }
         return bestSlot;
-    }
-
-    private int findItemInInventory(Item item) {
-        for (int i = 9; i < mc.player.currentScreenHandler.slots.size(); i++) {
-            ItemStack stack = mc.player.currentScreenHandler.getSlot(i).getStack();
-            if (!stack.isEmpty() && stack.getItem() == item) {
-                return i;
-            }
-        }
-        return -1;
     }
 
     private int getItemCount(Item item) {

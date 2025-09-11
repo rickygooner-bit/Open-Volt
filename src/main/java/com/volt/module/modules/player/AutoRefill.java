@@ -48,7 +48,6 @@ public final class AutoRefill extends Module {
     private final Set<Item> healthPotions = new HashSet<>();
     private RefillState currentState = RefillState.IDLE;
     private boolean wasInventoryOpen = false;
-    private int currentRefillSlot = 0;
     private int operationsThisTick = 0;
     private long reactionDelay = 0;
 
@@ -208,73 +207,8 @@ public final class AutoRefill extends Module {
         }
     }
 
-    private boolean hasRefillablePotions() {
-        for (int i = 0; i < 9; i++) {
-            ItemStack stack = mc.player.getInventory().getStack(i);
-            if (isHealthPotion(stack) && stack.getCount() < minStackCount.getValueInt()) {
-                return true;
-            }
-        }
-
-        boolean hasEmptySlot = false;
-        boolean hasPotionsInInventory = false;
-
-        for (int i = 0; i < 9; i++) {
-            if (mc.player.getInventory().getStack(i).isEmpty()) {
-                hasEmptySlot = true;
-                break;
-            }
-        }
-
-        if (hasEmptySlot) {
-            for (int i = 9; i < 36; i++) {
-                ItemStack stack = mc.player.getInventory().getStack(i);
-                if (isHealthPotion(stack)) {
-                    hasPotionsInInventory = true;
-                    break;
-                }
-            }
-        }
-
-        return hasEmptySlot && hasPotionsInInventory;
-    }
-
-    private boolean shouldStartRefill() {
-        if (!refillTimer.hasElapsedTime(refillDelay.getValueInt())) return false;
-
-        for (int i = 0; i < 9; i++) {
-            ItemStack stack = mc.player.getInventory().getStack(i);
-            if (isHealthPotion(stack) && stack.getCount() < minStackCount.getValueInt()) {
-                return true;
-            }
-        }
-
-        boolean hasEmptySlot = false;
-        boolean hasPotionsInInventory = false;
-
-        for (int i = 0; i < 9; i++) {
-            if (mc.player.getInventory().getStack(i).isEmpty()) {
-                hasEmptySlot = true;
-                break;
-            }
-        }
-
-        if (hasEmptySlot) {
-            for (int i = 9; i < 36; i++) {
-                ItemStack stack = mc.player.getInventory().getStack(i);
-                if (isHealthPotion(stack)) {
-                    hasPotionsInInventory = true;
-                    break;
-                }
-            }
-        }
-
-        return hasEmptySlot && hasPotionsInInventory;
-    }
-
     private void startRefillProcess() {
         currentState = RefillState.OPENING_INVENTORY;
-        currentRefillSlot = 0;
         wasInventoryOpen = mc.currentScreen instanceof InventoryScreen;
         refillTimer.reset();
 
@@ -320,8 +254,6 @@ public final class AutoRefill extends Module {
         moveItemToHotbar(sourceSlot);
         operationsThisTick++;
 
-        int baseDelay = refillDelay.getValueInt();
-        int randomVariation = random.nextInt(Math.max(1, baseDelay / 4));
         refillTimer.reset();
 
         try {

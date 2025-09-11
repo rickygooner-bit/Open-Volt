@@ -195,7 +195,6 @@ public final class ElytraHotSwap extends Module {
             mc.player.getInventory().setStack(36 + mc.player.getInventory().selectedSlot, previousChestArmor.copy());
 
             if (silentSwap.getValue()) {
-                int currentSlot = mc.player.getInventory().selectedSlot;
 
                 if (mc.interactionManager != null) {
                     mc.interactionManager.interactItem(mc.player, Hand.MAIN_HAND);

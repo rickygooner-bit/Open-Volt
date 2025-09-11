@@ -479,10 +479,6 @@ public final class TrapSave extends Module {
         public String getDisplayName() {
             return displayName;
         }
-
-        public Color getDefaultColor() {
-            return defaultColor;
-        }
     }
 
     private static class TrapCluster {
