@@ -25,6 +25,8 @@ public class GuiEventHandler {
     private final Map<ColorSetting, ColorPicker> colorPickers = new HashMap<>();
     private KeybindSetting listeningKeybind = null;
     private boolean wasListeningKeybind = false;
+    private NumberSetting editingNumberSetting = null;
+    private String numberInputText = "";
     private Category selectedCategory;
     private int scrollOffset = 0;
     private int maxScrollOffset = 0; 
@@ -77,6 +79,11 @@ public class GuiEventHandler {
             }
             
             if (handleSearchBarClick(mouseX, mouseY, containerX, containerY)) {
+                return true;
+            }
+            
+            if (editingNumberSetting != null) {
+                setEditingNumberSetting(null);
                 return true;
             }
         }
@@ -211,12 +218,26 @@ public class GuiEventHandler {
             
             case NumberSetting numberSetting -> {
                 controlWidth = (int) (((double) controlWidth) * .75);
-                double relativeX = mouseX - controlX;
-                double percentage = Math.max(0, Math.min(1, relativeX / controlWidth));
-                double newValue = numberSetting.getMin() + percentage * (numberSetting.getMax() - numberSetting.getMin());
-                numberSetting.setValue(newValue);
-                sliderDragging.put(numberSetting, true);
-                return true;
+                
+                int valueTextX = controlX + controlWidth + 5;
+                String valueText = String.valueOf(numberSetting.getValue());
+                if (valueText.endsWith(".0")) {
+                    valueText = valueText.substring(0, valueText.length() - 2);
+                }
+                int valueTextWidth = net.minecraft.client.MinecraftClient.getInstance().textRenderer.getWidth(valueText);
+                
+                if (mouseX >= valueTextX && mouseX <= valueTextX + valueTextWidth && 
+                    mouseY >= controlY && mouseY <= controlY + SETTING_HEIGHT) {
+                    setEditingNumberSetting(numberSetting);
+                    return true;
+                } else {
+                    double relativeX = mouseX - controlX;
+                    double percentage = Math.max(0, Math.min(1, relativeX / controlWidth));
+                    double newValue = numberSetting.getMin() + percentage * (numberSetting.getMax() - numberSetting.getMin());
+                    numberSetting.setValue(newValue);
+                    sliderDragging.put(numberSetting, true);
+                    return true;
+                }
             }
             
             case ModeSetting modeSetting -> {
@@ -318,6 +339,30 @@ public class GuiEventHandler {
     }
     
     public boolean handleKeyPress(int keyCode, int scanCode, int modifiers) {
+        if (editingNumberSetting != null) {
+            if (keyCode == GLFW.GLFW_KEY_ENTER || keyCode == GLFW.GLFW_KEY_KP_ENTER) {
+                try {
+                    double newValue = Double.parseDouble(numberInputText);
+                    double min = editingNumberSetting.getMin();
+                    double max = editingNumberSetting.getMax();
+                    newValue = Math.max(min, Math.min(max, newValue));
+                    editingNumberSetting.setValue(newValue);
+                } catch (NumberFormatException e) {
+                }
+                setEditingNumberSetting(null);
+                return true;
+            } else if (keyCode == GLFW.GLFW_KEY_ESCAPE) {
+                setEditingNumberSetting(null);
+                return true;
+            } else if (keyCode == GLFW.GLFW_KEY_BACKSPACE) {
+                if (!numberInputText.isEmpty()) {
+                    numberInputText = numberInputText.substring(0, numberInputText.length() - 1);
+                }
+                return true;
+            }
+            return true;
+        }
+        
         if (listeningKeybind != null) {
             wasListeningKeybind = true;
             if (keyCode == GLFW.GLFW_KEY_ESCAPE) {
@@ -354,6 +399,20 @@ public class GuiEventHandler {
     }
     
     public boolean handleCharTyped(char chr, int modifiers) {
+        if (editingNumberSetting != null) {
+            if (Character.isDigit(chr) || chr == '.' || chr == '-') {
+                if (chr == '.' && numberInputText.contains(".")) {
+                    return true;
+                }
+                if (chr == '-' && !numberInputText.isEmpty()) {
+                    return true;
+                }
+                
+                numberInputText += chr;
+            }
+            return true;
+        }
+        
         if ((listeningKeybind != null && listeningKeybind.isListening()) || wasListeningKeybind) {
             return true;
         }
@@ -489,5 +548,29 @@ public class GuiEventHandler {
     
     public Map<ColorSetting, ColorPicker> getColorPickers() {
         return colorPickers;
+    }
+    
+    public NumberSetting getEditingNumberSetting() {
+        return editingNumberSetting;
+    }
+    
+    public void setEditingNumberSetting(NumberSetting setting) {
+        this.editingNumberSetting = setting;
+        if (setting != null) {
+            this.numberInputText = String.valueOf(setting.getValue());
+            if (numberInputText.endsWith(".0")) {
+                numberInputText = numberInputText.substring(0, numberInputText.length() - 2);
+            }
+        } else {
+            this.numberInputText = "";
+        }
+    }
+    
+    public String getNumberInputText() {
+        return numberInputText;
+    }
+    
+    public void setNumberInputText(String text) {
+        this.numberInputText = text;
     }
 }

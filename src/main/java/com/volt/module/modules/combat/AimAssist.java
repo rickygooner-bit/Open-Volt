@@ -8,7 +8,8 @@ import com.volt.module.modules.misc.Teams;
 import com.volt.module.setting.BooleanSetting;
 import com.volt.module.setting.ModeSetting;
 import com.volt.module.setting.NumberSetting;
-import com.volt.utils.math.TimerUtil;
+import com.volt.utils.friend.FriendManager;
+
 
 import meteordevelopment.orbit.EventHandler;
 import net.minecraft.entity.Entity;
@@ -128,6 +129,7 @@ public class AimAssist extends Module {
     private boolean isValidTarget(Entity entity) {
         if (entity == null || entity == mc.player || !(entity instanceof LivingEntity livingEntity)) return false;
         if (!livingEntity.isAlive() || livingEntity.isDead()) return false;
+        if (entity instanceof PlayerEntity player && FriendManager.isFriend(player.getUuid())) return false;
         if (Teams.isTeammate(entity)) return false;
         
         return entity instanceof PlayerEntity ? targetPlayers.getValue() : targetMobs.getValue();
