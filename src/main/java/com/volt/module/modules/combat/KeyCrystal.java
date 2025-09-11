@@ -167,14 +167,9 @@ public final class KeyCrystal extends Module {
         super.onDisable();
         stopCrystalPvP();
     }
-
+    
     @Override
     public int getKey() {
         return -1;
-    }
-
-    @Override
-    public void setKey(int key) {
-
     }
 }

@@ -202,9 +202,4 @@ public final class KeyAnchor extends Module {
     public int getKey() {
         return -1;
     }
-
-    @Override
-    public void setKey(int key) {
-
-    }
 }
