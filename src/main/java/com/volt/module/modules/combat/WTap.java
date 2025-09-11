@@ -11,7 +11,6 @@ import com.volt.utils.math.TimerUtil;
 import meteordevelopment.orbit.EventHandler;
 import org.lwjgl.glfw.GLFW;
 
-// Make chance work and sometimes the module makes you sprint even if you release W
 public class WTap extends Module {
     public static final NumberSetting chance = new NumberSetting("Chance (%)", 1, 100, 100, 1);
     private final NumberSetting msDelay = new NumberSetting("Ms", 1, 500, 60, 1);

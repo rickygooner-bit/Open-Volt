@@ -51,7 +51,13 @@ public final class AutoMace extends Module {
     @EventHandler
     private void onTickEvent(TickEvent event) {
         if (isNull()) return;
-
+        
+        if (switchDelayMin.getValueInt() >= switchDelayMax.getValueInt()) {
+        switchDelayMax.setValue(switchDelayMin.getValueInt() + 1);
+    }
+        if (attackDelayMin.getValue() >= attackDelayMax.getValue()) {
+        attackDelayMax.setValue(attackDelayMin.getValue() + 1);
+    }
         updateFallTracking();
 
         currentTarget = mc.targetedEntity;
