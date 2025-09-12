@@ -71,7 +71,7 @@ public final class ModuleManager {
         add(
                 new ContainerSlots(), new FullBright(), new HUD(), new PlayerESP(),
                 new SwingSpeed(), new OreESP(), new Trajectory(), new FpsCounter(),
-                new SkeletonESP()
+                new SkeletonESP(), new EntityESP()
         );
 
         // Misc
