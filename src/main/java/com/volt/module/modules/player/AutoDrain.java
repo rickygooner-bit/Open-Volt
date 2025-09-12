@@ -1,12 +1,16 @@
 package com.volt.module.modules.player;
 
 
+import org.lwjgl.glfw.GLFW;
+
 import com.volt.event.impl.player.TickEvent;
 import com.volt.mixin.MinecraftClientAccessor;
 import com.volt.module.Category;
 import com.volt.module.Module;
 import com.volt.module.setting.NumberSetting;
 import com.volt.utils.math.TimerUtil;
+import com.volt.utils.mc.MouseSimulation;
+
 import meteordevelopment.orbit.EventHandler;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.BlockState;
@@ -62,6 +66,8 @@ public final class AutoDrain extends Module {
         originalSlot = mc.player.getInventory().selectedSlot;
         mc.player.getInventory().selectedSlot = emptyBucketSlot;
         ((MinecraftClientAccessor) mc).invokeDoItemUse();
+        MouseSimulation.mousePress(GLFW.GLFW_MOUSE_BUTTON_RIGHT);
+        MouseSimulation.mouseRelease(GLFW.GLFW_MOUSE_BUTTON_RIGHT);
         pendingSwitchBack = true;
         switchBackTimer.reset();
         cooldownTimer.reset();

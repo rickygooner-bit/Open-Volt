@@ -10,6 +10,8 @@ import com.volt.module.setting.KeybindSetting;
 import com.volt.module.setting.NumberSetting;
 import com.volt.utils.keybinding.KeyUtils;
 import com.volt.utils.math.TimerUtil;
+import com.volt.utils.mc.MouseSimulation;
+
 import meteordevelopment.orbit.EventHandler;
 import net.minecraft.item.Items;
 import org.lwjgl.glfw.GLFW;
@@ -80,6 +82,8 @@ public final class AutoWeb extends Module {
 
         if (websPlaced < targetWebCount) {
             ((MinecraftClientAccessor) mc).invokeDoItemUse();
+            MouseSimulation.mousePress(GLFW.GLFW_MOUSE_BUTTON_RIGHT);
+            MouseSimulation.mouseRelease(GLFW.GLFW_MOUSE_BUTTON_RIGHT);
             websPlaced++;
             clickTimer.reset();
         } else {
@@ -146,9 +150,5 @@ public final class AutoWeb extends Module {
     @Override
     public int getKey() {
         return -1;
-    }
-
-    @Override
-    public void setKey(int key) {
     }
 }

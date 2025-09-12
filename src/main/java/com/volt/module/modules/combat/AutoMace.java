@@ -1,6 +1,8 @@
 package com.volt.module.modules.combat;
 
 
+import org.lwjgl.glfw.GLFW;
+
 import com.volt.event.impl.player.TickEvent;
 import com.volt.mixin.MinecraftClientAccessor;
 import com.volt.module.Category;
@@ -9,6 +11,7 @@ import com.volt.module.setting.BooleanSetting;
 import com.volt.module.setting.NumberSetting;
 import com.volt.utils.math.MathUtils;
 import com.volt.utils.math.TimerUtil;
+import com.volt.utils.mc.MouseSimulation;
 import com.volt.module.modules.misc.Teams;
 import meteordevelopment.orbit.EventHandler;
 import net.minecraft.entity.Entity;
@@ -161,6 +164,8 @@ public final class AutoMace extends Module {
     private void attackTarget() {
         if (currentTarget == null) return;
         ((MinecraftClientAccessor) mc).invokeDoAttack();
+        MouseSimulation.mousePress(GLFW.GLFW_MOUSE_BUTTON_LEFT);
+        MouseSimulation.mouseRelease(GLFW.GLFW_MOUSE_BUTTON_LEFT);
     }
 
     private void handleLanding() {

@@ -10,6 +10,8 @@ import com.volt.module.setting.KeybindSetting;
 import com.volt.module.setting.NumberSetting;
 import com.volt.utils.keybinding.KeyUtils;
 import com.volt.utils.math.TimerUtil;
+import com.volt.utils.mc.MouseSimulation;
+
 import meteordevelopment.orbit.EventHandler;
 import net.minecraft.item.Items;
 import org.lwjgl.glfw.GLFW;
@@ -103,6 +105,8 @@ public final class WindChargeKey extends Module {
         mc.player.getInventory().selectedSlot = windChargeSlot;
 
         ((MinecraftClientAccessor) mc).invokeDoItemUse();
+        MouseSimulation.mousePress(GLFW.GLFW_MOUSE_BUTTON_RIGHT);
+        MouseSimulation.mouseRelease(GLFW.GLFW_MOUSE_BUTTON_RIGHT);
 
         mc.player.getInventory().selectedSlot = currentSlot;
     }
@@ -113,6 +117,8 @@ public final class WindChargeKey extends Module {
         mc.player.getInventory().selectedSlot = windChargeSlot;
 
         ((MinecraftClientAccessor) mc).invokeDoItemUse();
+        MouseSimulation.mousePress(GLFW.GLFW_MOUSE_BUTTON_RIGHT);
+        MouseSimulation.mouseRelease(GLFW.GLFW_MOUSE_BUTTON_RIGHT);
 
         needsSlotRestore = true;
         switchBackTimer.reset();

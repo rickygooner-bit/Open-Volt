@@ -10,6 +10,8 @@ import com.volt.module.setting.NumberSetting;
 import com.volt.utils.keybinding.KeyUtils;
 import com.volt.utils.math.TimerUtil;
 import com.volt.utils.mc.InventoryUtil;
+import com.volt.utils.mc.MouseSimulation;
+
 import meteordevelopment.orbit.EventHandler;
 import net.minecraft.entity.decoration.EndCrystalEntity;
 import net.minecraft.item.Items;
@@ -60,6 +62,8 @@ public final class AutoCrystal extends Module {
             if (entityHit.getEntity() instanceof EndCrystalEntity crystal) {
                 if (mc.player.getPos().distanceTo(crystal.getPos()) <= 4.5) {
                     ((MinecraftClientAccessor) mc).invokeDoAttack();
+                    MouseSimulation.mousePress(GLFW.GLFW_MOUSE_BUTTON_LEFT);
+                    MouseSimulation.mouseRelease(GLFW.GLFW_MOUSE_BUTTON_LEFT);
                 }
                 return;
             }
@@ -76,6 +80,8 @@ public final class AutoCrystal extends Module {
 
                 if (mc.player.getMainHandStack().getItem() == Items.END_CRYSTAL) {
                     ((MinecraftClientAccessor) mc).invokeDoItemUse();
+                    MouseSimulation.mousePress(GLFW.GLFW_MOUSE_BUTTON_RIGHT);
+                    MouseSimulation.mouseRelease(GLFW.GLFW_MOUSE_BUTTON_RIGHT);
                 }
             }
         }

@@ -9,6 +9,8 @@ import com.volt.module.setting.BooleanSetting;
 import com.volt.module.setting.KeybindSetting;
 import com.volt.module.setting.NumberSetting;
 import com.volt.utils.keybinding.KeyUtils;
+import com.volt.utils.mc.MouseSimulation;
+
 import meteordevelopment.orbit.EventHandler;
 import net.minecraft.item.BowItem;
 import net.minecraft.item.ItemStack;
@@ -148,10 +150,14 @@ public final class CartKey extends Module {
             int current = mc.player.getInventory().selectedSlot;
             mc.player.getInventory().selectedSlot = slot;
             ((MinecraftClientAccessor) mc).invokeDoItemUse();
+            MouseSimulation.mousePress(GLFW.GLFW_MOUSE_BUTTON_RIGHT);
+            MouseSimulation.mouseRelease(GLFW.GLFW_MOUSE_BUTTON_RIGHT);
             mc.player.getInventory().selectedSlot = current;
         } else {
             mc.player.getInventory().selectedSlot = slot;
             ((MinecraftClientAccessor) mc).invokeDoItemUse();
+            MouseSimulation.mousePress(GLFW.GLFW_MOUSE_BUTTON_RIGHT);
+            MouseSimulation.mouseRelease(GLFW.GLFW_MOUSE_BUTTON_RIGHT);
         }
         return true;
     }

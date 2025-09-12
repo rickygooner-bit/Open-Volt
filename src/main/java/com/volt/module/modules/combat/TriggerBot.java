@@ -1,6 +1,8 @@
 package com.volt.module.modules.combat;
 
 
+import org.lwjgl.glfw.GLFW;
+
 import com.volt.event.impl.player.TickEvent;
 import com.volt.event.impl.world.WorldChangeEvent;
 import com.volt.mixin.MinecraftClientAccessor;
@@ -11,6 +13,7 @@ import com.volt.module.setting.NumberSetting;
 import com.volt.utils.friend.FriendManager;
 import com.volt.utils.math.MathUtils;
 import com.volt.utils.math.TimerUtil;
+import com.volt.utils.mc.MouseSimulation;
 import com.volt.module.modules.misc.Teams;
 import meteordevelopment.orbit.EventHandler;
 import net.minecraft.entity.Entity;
@@ -200,6 +203,8 @@ private boolean setPreferCrits() {
     }
         public void attack() {
         ((MinecraftClientAccessor) mc).invokeDoAttack();
+        MouseSimulation.mousePress(GLFW.GLFW_MOUSE_BUTTON_LEFT);
+        MouseSimulation.mouseRelease(GLFW.GLFW_MOUSE_BUTTON_LEFT);
         if (samePlayer.getValue() && target != null) {
             lastTargetUUID = target.getUuidAsString();
             samePlayerTimer.reset();

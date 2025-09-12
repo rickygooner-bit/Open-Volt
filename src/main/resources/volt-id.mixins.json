@@ -17,7 +17,8 @@
     "WorldRendererMixin",
     "ClientPlayerInteractionManagerMixin",
     "PlayerEntityMixin",
-    "ClientPlayerEntityMixin"
+    "ClientPlayerEntityMixin",
+    "MouseHandlerAccessor"
   ],
   "injectors": {
     "defaultRequire": 1

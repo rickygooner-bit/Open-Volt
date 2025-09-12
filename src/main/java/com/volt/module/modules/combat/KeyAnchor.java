@@ -9,6 +9,8 @@ import com.volt.module.setting.KeybindSetting;
 import com.volt.module.setting.NumberSetting;
 import com.volt.utils.keybinding.KeyUtils;
 import com.volt.utils.math.TimerUtil;
+import com.volt.utils.mc.MouseSimulation;
+
 import meteordevelopment.orbit.EventHandler;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.RespawnAnchorBlock;
@@ -103,13 +105,19 @@ public final class KeyAnchor extends Module {
                 if (charges == 0) {
                     if (swapToItem(Items.GLOWSTONE)) {
                         ((MinecraftClientAccessor) mc).invokeDoItemUse();
+                        MouseSimulation.mousePress(GLFW.GLFW_MOUSE_BUTTON_RIGHT);
+                        MouseSimulation.mouseRelease(GLFW.GLFW_MOUSE_BUTTON_RIGHT);
                     }
                 } else {
                     if (swapToSword()) {
                         ((MinecraftClientAccessor) mc).invokeDoItemUse();
+                        MouseSimulation.mousePress(GLFW.GLFW_MOUSE_BUTTON_RIGHT);
+                        MouseSimulation.mouseRelease(GLFW.GLFW_MOUSE_BUTTON_RIGHT);
                         scheduleRestoreOriginalSlot();
                     } else if (swapToItem(Items.TOTEM_OF_UNDYING)) {
                         ((MinecraftClientAccessor) mc).invokeDoItemUse();
+                        MouseSimulation.mousePress(GLFW.GLFW_MOUSE_BUTTON_RIGHT);
+                        MouseSimulation.mouseRelease(GLFW.GLFW_MOUSE_BUTTON_RIGHT);
                         scheduleRestoreOriginalSlot();
                     }
                 }
@@ -121,6 +129,8 @@ public final class KeyAnchor extends Module {
             if (isValidAnchorPosition(placementPos) && !hasPlacedThisCycle) {
                 if (swapToItem(Items.RESPAWN_ANCHOR)) {
                     ((MinecraftClientAccessor) mc).invokeDoItemUse();
+                    MouseSimulation.mousePress(GLFW.GLFW_MOUSE_BUTTON_RIGHT);
+                    MouseSimulation.mouseRelease(GLFW.GLFW_MOUSE_BUTTON_RIGHT);
                     hasPlacedThisCycle = true;
                 }
             }

@@ -1,6 +1,8 @@
 package com.volt.module.modules.player;
 
 
+import org.lwjgl.glfw.GLFW;
+
 import com.volt.event.impl.player.TickEvent;
 import com.volt.mixin.MinecraftClientAccessor;
 import com.volt.module.Category;
@@ -10,6 +12,8 @@ import com.volt.module.setting.NumberSetting;
 import com.volt.utils.math.MathUtils;
 import com.volt.utils.math.TimerUtil;
 import com.volt.utils.mc.InventoryUtil;
+import com.volt.utils.mc.MouseSimulation;
+
 import meteordevelopment.orbit.EventHandler;
 import net.minecraft.item.Items;
 
@@ -91,6 +95,8 @@ public final class AutoExtinguish extends Module {
                 case PLACING:
                     InventoryUtil.swapToSlot(Items.WATER_BUCKET);
                     ((MinecraftClientAccessor) mc).invokeDoItemUse();
+                    MouseSimulation.mousePress(GLFW.GLFW_MOUSE_BUTTON_RIGHT);
+                    MouseSimulation.mouseRelease(GLFW.GLFW_MOUSE_BUTTON_RIGHT);
                     currentState = pickUP.getValue() ? State.PICKING_UP : State.RETURNING;
                     timer.reset();
                     break;
@@ -98,6 +104,8 @@ public final class AutoExtinguish extends Module {
                 case PICKING_UP:
                     if (delay.hasElapsedTime(100)) {
                         ((MinecraftClientAccessor) mc).invokeDoItemUse();
+                        MouseSimulation.mousePress(GLFW.GLFW_MOUSE_BUTTON_RIGHT);
+                        MouseSimulation.mouseRelease(GLFW.GLFW_MOUSE_BUTTON_RIGHT);
                         currentState = State.RETURNING;
                         timer.reset();
                     }

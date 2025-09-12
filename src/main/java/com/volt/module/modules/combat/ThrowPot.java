@@ -10,6 +10,8 @@ import com.volt.module.setting.KeybindSetting;
 import com.volt.module.setting.NumberSetting;
 import com.volt.utils.keybinding.KeyUtils;
 import com.volt.utils.math.TimerUtil;
+import com.volt.utils.mc.MouseSimulation;
+
 import meteordevelopment.orbit.EventHandler;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.PotionContentsComponent;
@@ -225,6 +227,8 @@ public final class ThrowPot extends Module {
 
         mc.player.getInventory().selectedSlot = slot;
         ((MinecraftClientAccessor) mc).invokeDoItemUse();
+        MouseSimulation.mousePress(GLFW.GLFW_MOUSE_BUTTON_RIGHT);
+        MouseSimulation.mouseRelease(GLFW.GLFW_MOUSE_BUTTON_RIGHT);
     }
 
     private void finishThrow() {
@@ -356,10 +360,5 @@ public final class ThrowPot extends Module {
     @Override
     public int getKey() {
         return -1;
-    }
-
-    @Override
-    public void setKey(int key) {
-
     }
 } 

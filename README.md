@@ -11,7 +11,7 @@ The client was originally meant to be paid, but I decided to make it FOSS. Hopef
 
 # People Who Helped Make Volt Happen
 
-Lvstrng (1037070137041375412) – Client base
+Lvstrng (1037070137041375412) – Client base + Click Simulation
 
 Walper (957343617272414230) – One of the best people I’ve met in this community
 

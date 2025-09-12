@@ -12,13 +12,12 @@ import net.minecraft.network.packet.s2c.play.EntityVelocityUpdateS2CPacket;
 
 public final class Velocity extends Module {
     public static final NumberSetting chance = new NumberSetting("Chance (%)", 1, 100, 100, 1);
-    public static final BooleanSetting noScreen = new BooleanSetting("Ignore Containers", true);
     public static final BooleanSetting ignoreWhenBackwards = new BooleanSetting("Ignore S press", true);
     public static final BooleanSetting ignoreOnFire = new BooleanSetting("Ignore on fire", true);
     private boolean jumped = false;
     public Velocity() {
         super("Velocity", "Automatically jump resets to reduce your velocity", -1, Category.COMBAT);
-        this.addSettings(chance, noScreen, ignoreWhenBackwards, ignoreOnFire);
+        this.addSettings(chance, ignoreWhenBackwards, ignoreOnFire);
     }
 
     @EventHandler
@@ -29,7 +28,7 @@ public final class Velocity extends Module {
             if (chanceCheck()) {
                 if (ignoreWhenBackwards.getValue() && mc.options.backKey.isPressed()) return;
                 if (ignoreOnFire.getValue() && mc.player.isOnFire()) return;
-                if (noScreen.getValue() && mc.currentScreen != null) return;
+                if (mc.currentScreen != null) return;
 
                 if (!jumped && mc.player.isOnGround()) {
                     KeyBinding.setKeyPressed(mc.options.jumpKey.getDefaultKey(), true);

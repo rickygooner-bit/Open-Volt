@@ -9,6 +9,8 @@ import com.volt.module.setting.KeybindSetting;
 import com.volt.module.setting.NumberSetting;
 import com.volt.utils.keybinding.KeyUtils;
 import com.volt.utils.math.TimerUtil;
+import com.volt.utils.mc.MouseSimulation;
+
 import meteordevelopment.orbit.EventHandler;
 import net.minecraft.item.Items;
 import net.minecraft.util.Hand;
@@ -69,6 +71,8 @@ public final class PearlKey extends Module {
 
         if (mc.interactionManager != null) {
             mc.interactionManager.interactItem(mc.player, Hand.MAIN_HAND);
+            MouseSimulation.mousePress(GLFW.GLFW_MOUSE_BUTTON_RIGHT);
+            MouseSimulation.mouseRelease(GLFW.GLFW_MOUSE_BUTTON_RIGHT);
         }
 
         mc.player.getInventory().selectedSlot = currentSlot;
@@ -80,6 +84,8 @@ public final class PearlKey extends Module {
 
         if (mc.interactionManager != null) {
             mc.interactionManager.interactItem(mc.player, Hand.MAIN_HAND);
+            MouseSimulation.mousePress(GLFW.GLFW_MOUSE_BUTTON_RIGHT);
+            MouseSimulation.mouseRelease(GLFW.GLFW_MOUSE_BUTTON_RIGHT);
         }
 
         scheduleSlotRestore();
